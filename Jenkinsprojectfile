@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'fe/dev', description: 'Specify the branch name to deploy')
+        string(name: 'BRANCH_NAME', defaultValue: 'dev', description: 'Specify the branch name to deploy')
     }
     stages {
         stage("GIT checkout") {
@@ -27,7 +27,7 @@ pipeline {
         }
         stage("Deploy to Dev") {
             when {
-                expression { params.BRANCH_NAME == 'fe/dev' }
+                expression { params.BRANCH_NAME == 'dev' }
             }
             steps {
                 deployToTomcat('13.233.140.75', 'tomcat', 'tomcat', 'http://13.233.140.75:8080/manager/text', '/boxfuse-sample-java-war-hello', 'Dev')
@@ -35,7 +35,7 @@ pipeline {
         }
         stage("Deploy to QA") {
             when {
-                expression { params.BRANCH_NAME == 'fe/qa' }
+                expression { params.BRANCH_NAME == 'qa' }
             }
             steps {
                 deployToTomcat('35.154.248.74', 'tomcat', 'tomcat', 'http://35.154.248.74:8080/manager/text', '/boxfuse-sample-java-war-hello', 'QA')
